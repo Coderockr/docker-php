@@ -5,8 +5,10 @@ on:
     branches:
       - "main"
       - "v*.*"
+      - "v*.*-*"
     tags:
       - "v*.*.*"
+      - "v*.*.*-*"
 
   pull_request:
 
