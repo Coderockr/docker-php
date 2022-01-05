@@ -51,7 +51,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            coderockr/php-fpm
+            coderockr/php
             ghcr.io/${{ github.repository }}
           tags: |
             type=schedule
