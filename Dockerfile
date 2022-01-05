@@ -1,28 +1,41 @@
-FROM php:7.3.2
+FROM php:8.0.11
 
-# RUN echo "Install libs & PHP extensions"
-RUN apt-get update && apt-get install -y \
-    zip \
-    libzip-dev \
+# keep ordered alphabetically to reduce diffs
+RUN apt update && apt install -y \
+    acl \
+    apt-transport-https \
+    build-essential \
+    ca-certificates \
+    coreutils \
+    curl \
+    file \
+    gettext \
     git \
     libfreetype6-dev \
     libicu-dev \
     libjpeg62-turbo-dev \
-    gettext \
-    locales
+    libmariadb-dev \
+    libpng-dev \
+    libpq-dev \
+    libssl-dev \
+    libtool \
+    libwebp-dev \
+    libxpm-dev \
+    libzip-dev \
+    locales \
+    mariadb-client \
+    wget \
+    xsel \
+    zip
 
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen \
+    && docker-php-ext-enable opcache \
+    && docker-php-ext-configure gettext --with-gettext=/usr/include/ \
+    && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install -j$(nproc) gettext gd exif intl pdo pdo_mysql zip mysqli bcmath
 
-RUN docker-php-ext-configure gettext --with-gettext=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gettext \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) \
-    zip \
-    pdo_mysql \
-    gd \
-    intl \
-    bcmath
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 USER www-data:www-data
