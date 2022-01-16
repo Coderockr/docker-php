@@ -1,4 +1,4 @@
-FROM php:8.0.11
+FROM php:8.0
 
 # keep ordered alphabetically to reduce diffs
 RUN apt update && apt install -y \
