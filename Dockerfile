@@ -38,4 +38,7 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+COPY ports.conf logs.conf /etc/apache2/conf-enabled/
+RUN a2enmod rewrite unique_id
+
 USER www-data:www-data
