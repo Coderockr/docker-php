@@ -40,5 +40,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY ports.conf logs.conf /etc/apache2/conf-enabled/
 RUN a2enmod rewrite unique_id
+EXPOSE 8080
 
 USER www-data:www-data
