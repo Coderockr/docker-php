@@ -53,6 +53,7 @@ jobs:
           images: |
             coderockr/php
             ghcr.io/${{ github.repository }}
+            ghcr.io/coderockr/php
           tags: |
             type=schedule
             type=ref,event=branch
