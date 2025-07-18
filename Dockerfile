@@ -2,6 +2,7 @@ FROM php:8.4-apache
 
 # keep ordered alphabetically to reduce diffs
 RUN apt update && apt install -y \
+    sudo \
     acl \
     apt-transport-https \
     build-essential \
