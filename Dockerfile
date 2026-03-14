@@ -1,4 +1,4 @@
-FROM php:8.4
+FROM php:8.5
 
 # keep ordered alphabetically to reduce diffs
 RUN apt update && apt install -y \
@@ -30,7 +30,6 @@ RUN apt update && apt install -y \
     zip
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen \
-    && docker-php-ext-enable opcache \
     && docker-php-ext-configure gettext --with-gettext=/usr/include/ \
     && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
     && docker-php-ext-configure zip \
