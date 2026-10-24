@@ -12,7 +12,7 @@ RUN apt update && apt install -y \
     file \
     gettext \
     git \
-    libfreetype6-dev \
+    libfreetype-dev \
     libicu-dev \
     libjpeg62-turbo-dev \
     libmariadb-dev \
@@ -25,15 +25,18 @@ RUN apt update && apt install -y \
     libzip-dev \
     locales \
     mariadb-client \
+    unzip \
     wget \
     xsel \
-    zip
+    zip \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen \
     && docker-php-ext-configure gettext --with-gettext=/usr/include/ \
     && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
+    && docker-php-ext-configure ftp --with-ftp-ssl \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install -j$(nproc) gettext gd exif intl pdo pdo_mysql zip mysqli bcmath
+    && docker-php-ext-install -j$(nproc) gettext gd exif ftp intl pdo pdo_mysql sockets zip mysqli bcmath
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
